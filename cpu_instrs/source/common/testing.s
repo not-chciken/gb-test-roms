@@ -50,6 +50,8 @@ init_testing:
 tests_passed:
      call print_newline
      print_str "Passed"
+     ld   b,0
+     .byte $D3; Custom emulator instruction
      ld   a,0
      jp   exit
 
@@ -81,10 +83,12 @@ test_failed:
      call print_newline
      call print_str_hl
      call print_newline
-+    
++
      ld   a,(result)
      cp   1         ; if a = 0 then a = 1
      adc  0
+     ld   b,1
+     .byte $D3; Custom emulator instruction
      jp   exit
 
 
@@ -92,24 +96,24 @@ test_failed:
 ; Preserved: AF, BC, DE, HL
 print_crc:
      push af
-     
+
      ; Must read checksum entirely before printing,
      ; since printing updates it.
      lda  checksum
      cpl
      push af
-     
+
      lda  checksum+1
      cpl
      push af
-     
+
      lda  checksum+2
      cpl
      push af
-     
+
      lda  checksum+3
      cpl
-     
+
      call print_hex
      pop  af
      call print_hex
@@ -117,7 +121,7 @@ print_crc:
      call print_hex
      pop  af
      call print_a
-     
+
      pop  af
      ret
 
@@ -140,21 +144,21 @@ check_crc_:
      lda  checksum+0
      cp   e
      jr   nz,+
-     
+
      lda  checksum+1
      cp   d
      jr   nz,+
-     
+
      lda  checksum+2
      cp   c
      jr   nz,+
-     
+
      lda  checksum+3
      cp   b
      jr   nz,+
-     
+
      jp   reset_crc
-     
+
 +    call print_crc
      jp   test_failed
 

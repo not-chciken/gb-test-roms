@@ -7,8 +7,8 @@ cpu_norm:
      ld   a,(gb_id)
      and  gb_id_cgb
      ret  z
-     
-     lda  KEY1
+
+     ldza  KEY1
      rlca
      ret  nc
      jr   cpu_speed_toggle
@@ -21,7 +21,7 @@ cpu_fast:
      ld   a,(gb_id)
      and  gb_id_cgb
      ret  z
-     
+
      lda  KEY1
      rlca
      ret  c
