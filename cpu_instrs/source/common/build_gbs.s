@@ -30,7 +30,7 @@ load_addr:
 
 
 ;;;; Shell
-     
+
 .include "runtime.s"
 
 init_runtime:
@@ -69,26 +69,26 @@ console_set_mode:
 play_byte:
      push af
      push hl
-     
+
      ; HL = (A << 1) | 1
      scf
      rla
      ld   l,a
      ld   h,0
      rl   h
-     
+
      ; Shift left until next-to-top bit is 1
 -    add  hl,hl
      bit  6,h
      jr   z,-
-     
+
      ; Reset sound
      delay_msec 400
      wreg NR52,0    ; sound off
      wreg NR52,$80  ; sound on
      wreg NR51,$FF  ; mono
      wreg NR50,$77  ; volume
-     
+
 -    add  hl,hl
 
      ; Low or high pitch based on bit shifted out
@@ -97,7 +97,7 @@ play_byte:
      jr   nc,+
      ld   a,$FF
 +    sta  NR23
-     
+
      ; Play short tone
      wreg NR21,$A0
      wreg NR22,$F0
@@ -107,13 +107,13 @@ play_byte:
      wreg NR23,$F8
      wreg NR24,$87
      delay_msec 200
-     
+
      ; Loop until HL = $8000
      ld   a,h
      xor  $80
      or   l
      jr   nz,-
-     
+
      pop  hl
      pop  af
      ret

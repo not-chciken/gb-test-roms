@@ -8,7 +8,7 @@ cpu_norm:
      and  gb_id_cgb
      ret  z
 
-     ldza  KEY1
+     lda  KEY1
      rlca
      ret  nc
      jr   cpu_speed_toggle

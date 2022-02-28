@@ -48,7 +48,7 @@
 
 
 ;;;; Shell
-     
+
 .include "runtime.s"
 .include "console.s"
 
